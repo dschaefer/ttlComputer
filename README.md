@@ -7,6 +7,10 @@ I was also inspired by the Gigatron TTL computer which is a bit more professiona
 
 Mine will be in between, using 74HCT chips wherever possible to achieve lower power consumption than Ben's. It'll be a full 8 bit address bus with allocation of the memory map to ROM, RAM, and device registers. I'll be adding Ben's VGA video "card" and game controllers so we can make games with this, with first thoughts of Breakout and Pong.
 
+### Simulation
+
+I am using the Logisim derivative called Digital, https://github.com/hneemann/Digital, to simulate my circuits before I build them. The are stored here as well.
+
 ### Step 0 - One bit
 
 A rather humourous tease of lots more to come, the one bit dasPuter :)
