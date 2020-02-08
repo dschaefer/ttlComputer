@@ -82,26 +82,6 @@
       <pos x="540" y="100"/>
     </visualElement>
     <visualElement>
-      <elementName>LED</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="1"/>
-        </entry>
-      </elementAttributes>
-      <pos x="460" y="160"/>
-    </visualElement>
-    <visualElement>
-      <elementName>LED</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="3"/>
-        </entry>
-      </elementAttributes>
-      <pos x="460" y="480"/>
-    </visualElement>
-    <visualElement>
       <elementName>VDD</elementName>
       <elementAttributes>
         <entry>
@@ -272,7 +252,7 @@
     </wire>
     <wire>
       <p1 x="160" y="440"/>
-      <p2 x="460" y="440"/>
+      <p2 x="500" y="440"/>
     </wire>
     <wire>
       <p1 x="540" y="440"/>
@@ -283,12 +263,8 @@
       <p2 x="800" y="440"/>
     </wire>
     <wire>
-      <p1 x="460" y="440"/>
-      <p2 x="500" y="440"/>
-    </wire>
-    <wire>
       <p1 x="200" y="200"/>
-      <p2 x="460" y="200"/>
+      <p2 x="500" y="200"/>
     </wire>
     <wire>
       <p1 x="540" y="200"/>
@@ -297,10 +273,6 @@
     <wire>
       <p1 x="700" y="200"/>
       <p2 x="740" y="200"/>
-    </wire>
-    <wire>
-      <p1 x="460" y="200"/>
-      <p2 x="500" y="200"/>
     </wire>
     <wire>
       <p1 x="500" y="280"/>
@@ -385,14 +357,6 @@
     <wire>
       <p1 x="360" y="380"/>
       <p2 x="360" y="500"/>
-    </wire>
-    <wire>
-      <p1 x="460" y="160"/>
-      <p2 x="460" y="200"/>
-    </wire>
-    <wire>
-      <p1 x="460" y="440"/>
-      <p2 x="460" y="480"/>
     </wire>
     <wire>
       <p1 x="240" y="380"/>
