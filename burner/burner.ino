@@ -39,8 +39,6 @@ void pulse_clock() {
     digitalWrite(CLOCK_PIN, LOW);
 }
 
-int n = 0;
-
 unsigned int read_byte() {
     while (Serial.available() == 0) {
         delay(1);
@@ -50,6 +48,44 @@ unsigned int read_byte() {
 
 unsigned short read_word() {
     return read_byte() | (read_byte() << 8);
+}
+
+void write_mode() {
+    for (int i = 0; i < 8; i++) {
+        pinMode(data_pins[i], OUTPUT);
+    }
+}
+
+void read_mode() {
+    for (int i = 0; i < 8; i++) {
+        pinMode(data_pins[i], INPUT);
+    }
+}
+
+void write_eeprom(unsigned char byte) {
+    for (int i = 0; i < 8; i++) {
+        digitalWrite(data_pins[i], byte & 1 ? HIGH : LOW);
+        byte >>= 1;
+    }
+
+    digitalWrite(WE_PIN, LOW);
+    delayMicroseconds(1);
+    digitalWrite(WE_PIN, HIGH);
+    delay(10);
+}
+
+unsigned char read_eeprom() {
+    unsigned char byte = 0, set = 1;
+    read_mode();
+    digitalWrite(OE_PIN, LOW);
+    for (int i = 0; i < 8; i++) {
+        if (digitalRead(data_pins[i]) == HIGH) {
+            byte |= set;
+        }
+        set <<= 1;
+    }
+    digitalWrite(OE_PIN, HIGH);
+    return byte;
 }
 
 void run_test() {
@@ -64,25 +100,43 @@ void run_test() {
 }
 
 void write_file() {
+
     unsigned short length = read_word();
     unsigned short offset = read_word();
     unsigned short checksum = read_word();
 
-    unsigned short mycheck = 0;
-    unsigned char * data = malloc(length);
-    for (unsigned short i = 0; i < length; i++) {
-        data[i] = read_byte();
-        mycheck += mycheck + data[i];
-        n++;
+    reset_counter();
+    write_mode();
+    unsigned short incheck = 0;
+    for (int i = 0; i < length; i++) {
+        unsigned char byte = read_byte();
+        incheck += incheck + byte;
+        write_eeprom(byte);
+        pulse_clock();
+        Serial.write('+');
     }
 
-    if (mycheck == checksum) {
-        Serial.print("Success!");
-    } else {
-        Serial.print("Bad transfer checksum = ");
-        Serial.print(mycheck);
-        Serial.print(".");
+    reset_counter();
+    read_mode();
+    unsigned short outcheck = 0;
+    for (int i = 0; i < length; i++) {
+        unsigned char byte = read_eeprom();
+        outcheck += outcheck + byte;
+        pulse_clock();
     }
+
+    if (incheck != checksum) {
+        Serial.print("Bad transfer checksum = ");
+        Serial.print(incheck);
+        Serial.print(".");
+    } else if (outcheck != checksum) {
+        Serial.print("Bad EEPROM checksum = ");
+        Serial.print(outcheck);
+        Serial.print(".");
+    } else {
+        Serial.print("Success!");
+    }
+
     Serial.print(" length = ");
     Serial.print(length);
     Serial.print(", offset = ");
