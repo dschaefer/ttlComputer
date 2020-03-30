@@ -1,3 +1,4 @@
 *.elf
 *.hex
 .theia
+*.sch-bak
